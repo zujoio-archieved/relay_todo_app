@@ -24,8 +24,6 @@ const SplashScreen = (screenProps) => {
         // }
     });
 
-    console.log({ props })
-
     if (props && props.viewer) {
         if (props.viewer.email) {
             screenProps.navigation.navigate(ROUTES_CONSTANTS.TODOS)

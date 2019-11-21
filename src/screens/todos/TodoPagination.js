@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, ActivityIndicator, FlatList } from 'react-native'
 import { graphql, usePagination, useMutation } from 'relay-hooks'
 import Todo from './Todo';
+import AddTodo from './AddTodo';
 
 const TodoPagination = (props) => {
     const fragmentSpec = graphql`
@@ -70,6 +71,7 @@ const TodoPagination = (props) => {
 
     return (
         <View style={{ flex: 1 }}>
+            <AddTodo viewerId={props.viewer.id} />
             <FlatList
                 style={{ flex: 1 }}
                 data={viewer.todos.edges}

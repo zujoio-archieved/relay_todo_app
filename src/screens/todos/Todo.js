@@ -41,7 +41,6 @@ const Todo = (props) => {
             optimisticUpdater: sharedUpdater,
             updater: store => {
                 const status = store.getRootField("editTodo").getValue("status")
-                console.log({ status })
                 if (status === "SUCCESS") {
                     sharedUpdater(store)
                 }

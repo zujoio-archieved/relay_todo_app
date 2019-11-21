@@ -26,7 +26,8 @@
     "react-relay-network-modern": "^4.2.0",
     "relay-hooks": "1.2.4",
     "relay-runtime": "^5.0.0",
-    "subscriptions-transport-ws": "^0.9.16"
+    "subscriptions-transport-ws": "^0.9.16",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

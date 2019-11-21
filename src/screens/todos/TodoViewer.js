@@ -40,10 +40,6 @@ const TodoViewer = () => {
     }
   });
 
-
-
-  console.log({ props })
-
   return props && props.viewer
     ? <TodoPagination TodoViewerQuery={TodoViewerQuery} viewer={props.viewer} />
     : <View><ActivityIndicator /></View>
