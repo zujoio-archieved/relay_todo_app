@@ -8,13 +8,13 @@
 
 import React from "react";
 import { Environment, Store, RecordSource } from 'relay-runtime'
-import { View } from 'react-native'
 import { createAppContainer } from "react-navigation";
 import { RelayEnvironmentProvider } from "relay-hooks";
 import { EnvironmentContext } from "./environmentContextDef";
 import AppNavigator from "./AppNavigation";
 
 import modernEnvironment, { network } from "../Environment";
+import { LocalStorage } from "./utils/localstorage";
 
 const AppContainer = createAppContainer(AppNavigator);
 
@@ -40,23 +40,22 @@ export default class App extends React.Component {
         })
         return res
     }
-
     render() {
+        // LocalStorage.clearToken()
+        // this._resetRelayStore()
+
         return (
-            <View style={{
-                flex: 1,
-            }}>
-                <EnvironmentContext.Provider
-                    value={{
-                        environment: this.state.environment,
-                        resetEnvironment: this._resetRelayStore
-                    }}
-                >
-                    <RelayEnvironmentProvider environment={this.state.environment}>
-                        <AppContainer />
-                    </RelayEnvironmentProvider>
-                </EnvironmentContext.Provider>
-            </View>
+
+            <EnvironmentContext.Provider
+                value={{
+                    environment: this.state.environment,
+                    resetEnvironment: this._resetRelayStore
+                }}
+            >
+                <RelayEnvironmentProvider environment={this.state.environment}>
+                    <AppContainer />
+                </RelayEnvironmentProvider>
+            </EnvironmentContext.Provider>
         )
     };
 }

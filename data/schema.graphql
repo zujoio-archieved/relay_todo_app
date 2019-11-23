@@ -1,9 +1,25 @@
 # source: http://localhost:8080/graphql
-# timestamp: Thu Nov 21 2019 13:08:01 GMT+0530 (India Standard Time)
+# timestamp: Sat Nov 23 2019 15:54:31 GMT+0530 (India Standard Time)
 
 schema {
   query: RootQuery
   mutation: RootMutation
+  subscription: RootSubscription
+}
+
+input changeThemeInput {
+  index: Int
+  clientMutationId: String
+}
+
+type changeThemePayload {
+  theme: userTheme
+  clientMutationId: String
+}
+
+type completedTodosDeleted {
+  message: String
+  deletedIds: [String]
 }
 
 input createTodoInput {
@@ -49,6 +65,7 @@ input editTodoInput {
 type editTodoPayload {
   status: String
   message: String
+  todoEdge: TodoEdge
   clientMutationId: String
 }
 
@@ -97,6 +114,7 @@ type registerPayload {
 type RootMutation {
   register(input: registerInput!): registerPayload
   login(input: loginInput!): loginPayload
+  changeTheme(input: changeThemeInput!): changeThemePayload
   createTodo(input: createTodoInput!): createTodoPayload
   editTodo(input: editTodoInput!): editTodoPayload
   deleteCompletedTodos(input: deleteCompletedTodosInput!): deleteCompletedTodosPayload
@@ -105,6 +123,18 @@ type RootMutation {
 
 type RootQuery {
   viewer: User
+}
+
+type RootSubscription {
+  todoCreated(viewerId: String): todoCreated
+  todoEdited(viewerId: String): todoEdited
+  todoDeleted(viewerId: String): todoDeleted
+  completedTodosDeleted(viewerId: String): completedTodosDeleted
+  themeChanged(viewerId: String): themeChanged
+}
+
+type themeChanged {
+  theme: userTheme
 }
 
 type Todo {
@@ -122,6 +152,14 @@ type TodoConnection {
   edges: [TodoEdge]
 }
 
+type todoCreated {
+  todoEdge: TodoEdge
+}
+
+type todoDeleted {
+  deletedId: String
+}
+
 """An edge in a connection."""
 type TodoEdge {
   """The item at the end of the edge"""
@@ -131,10 +169,24 @@ type TodoEdge {
   cursor: String!
 }
 
+type todoEdited {
+  todoEdge: TodoEdge
+}
+
 type User {
   id: ID
+  theme: userTheme
+  availableThemes: [userTheme]
   firstName: String
   lastName: String
   email: String
   todos(after: String, first: Int, before: String, last: Int, completed: Boolean): TodoConnection
+}
+
+type userTheme {
+  index: Int
+  name: String
+  primary: String
+  dark: String
+  light: String
 }

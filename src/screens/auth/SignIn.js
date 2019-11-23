@@ -8,8 +8,8 @@ import { ROUTES_CONSTANTS } from '../../AppNavigation'
 const SignIn = (props) => {
     const { resetEnvironment } = useEnvironmentContext()
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("chintan@gmail.com")
+    const [password, setPassword] = useState("abcd1234")
 
 
     const [mutate, { loading, data, error }] = useMutation(graphql`
@@ -24,19 +24,18 @@ const SignIn = (props) => {
     `,
         {
             onCompleted: async ({ login }) => {
-                const { status, message, token } = login
-                if (status === "SUCCESS" && token) {
+                const { status, message } = login
+                if (status === "SUCCESS" && login.token) {
                     setEmail("")
                     setPassword("")
-
                     await Promise.all([
-                        LocalStorage.storeToken(token),
+                        LocalStorage.storeToken(login.token),
                         resetEnvironment()
                     ]);
 
+                    const token = await LocalStorage.getToken()
+                    console.log({ token })
                     props.navigation.navigate(ROUTES_CONSTANTS.TODOS)
-
-
                 } else {
                     Alert.alert("Login Failed", message)
                 }

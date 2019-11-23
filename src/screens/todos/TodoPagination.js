@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator, FlatList } from 'react-native'
 import { graphql, usePagination, useMutation } from 'relay-hooks'
 import Todo from './Todo';
 import AddTodo from './AddTodo';
+import TodoContainer from './TodoContainer';
 
 const TodoPagination = (props) => {
     const fragmentSpec = graphql`
@@ -65,24 +66,26 @@ const TodoPagination = (props) => {
         );
     };
 
-    const _renderItem = ({ item, index }) => {
-        return <Todo viewerId={props.viewer.id} item={item} />
-    }
+    const completedTodos = []
+    const inCompletedTodos = []
+    viewer.todos.edges.forEach(edge => {
+        if (edge.node.completed) {
+            completedTodos.push(edge)
+        } else {
+            inCompletedTodos.push(edge)
+        }
+    })
 
     return (
         <View style={{ flex: 1 }}>
-            <AddTodo viewerId={props.viewer.id} />
-            <FlatList
-                style={{ flex: 1 }}
-                data={viewer.todos.edges}
-                onEndReached={_loadMore}
-                renderItem={_renderItem}
-                keyExtractor={(item) => item.node.id}
-                ListFooterComponent={hasMore() ? (
-                    <View>
-                        <ActivityIndicator />
-                    </View>
-                ) : null}
+            {/* <AddTodo viewerId={props.viewer.id} /> */}
+            <TodoContainer
+                completedTodos={completedTodos}
+                inCompletedTodos={inCompletedTodos}
+                allTodos={viewer.todos.edges}
+                viewerId={props.viewer.id}
+                _loadMore={_loadMore}
+                hasMore={hasMore}
             />
         </View>
     )

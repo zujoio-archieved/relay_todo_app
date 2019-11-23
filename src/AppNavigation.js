@@ -64,7 +64,6 @@ const AppNavigator = createAnimatedSwitchNavigator({
     },
     [ROUTES_CONSTANTS.APP_STACK]: {
         screen: AppStack,
-        path: "app",
         navigationOptions: () => ({ header: null })
     },
     [ROUTES_CONSTANTS.AUTH_STACK]: {

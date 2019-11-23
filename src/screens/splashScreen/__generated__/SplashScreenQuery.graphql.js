@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 69e361347783c1b9eef40c960e24f2e0
+ * @relayHash c2df24c4280ccf28fa4398ee51f96a01
  */
 
 /* eslint-disable */
@@ -14,8 +14,6 @@ export type SplashScreenQueryResponse = {|
   +viewer: ?{|
     +id: ?string,
     +email: ?string,
-    +firstName: ?string,
-    +lastName: ?string,
   |}
 |};
 export type SplashScreenQuery = {|
@@ -30,8 +28,6 @@ query SplashScreenQuery {
   viewer {
     id
     email
-    firstName
-    lastName
   }
 }
 */
@@ -60,20 +56,6 @@ var v0 = [
         "name": "email",
         "args": null,
         "storageKey": null
-      },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "firstName",
-        "args": null,
-        "storageKey": null
-      },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "lastName",
-        "args": null,
-        "storageKey": null
       }
     ]
   }
@@ -98,11 +80,11 @@ return {
     "operationKind": "query",
     "name": "SplashScreenQuery",
     "id": null,
-    "text": "query SplashScreenQuery {\n  viewer {\n    id\n    email\n    firstName\n    lastName\n  }\n}\n",
+    "text": "query SplashScreenQuery {\n  viewer {\n    id\n    email\n  }\n}\n",
     "metadata": {}
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'a7babe34d5db15b9a3edcd65ee4099d1';
+(node/*: any*/).hash = '17d10e16e3a5ea54efbee9ddcd8328c6';
 module.exports = node;

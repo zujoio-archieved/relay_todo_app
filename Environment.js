@@ -165,7 +165,7 @@ async function fetchQuery(
 
   const token = await LocalStorage.getToken();
 
-  // console.log({ token })
+  console.log("tokentokentoken", { token })
 
   // Try to get data from cache on queries
   const fromCache = cache.get(queryID, variables);
@@ -174,15 +174,18 @@ async function fetchQuery(
     fromCache !== null &&
     !forceFetch
   ) {
+    console.log("FROM CACHE")
     return fromCache;
   }
+
+  console.log("FETCIHING")
 
   // Otherwise, fetch data from server
   return fetch(httpEndPoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ["authorization"]: token
+      authorization: await LocalStorage.getToken()
     },
     body: JSON.stringify({
       query: operation.text,

@@ -1,9 +1,15 @@
-import React from 'react'
-import { View, Text, Button } from 'react-native'
+import React, { useRef } from 'react'
+import { View, Text, Button, TouchableOpacity } from 'react-native'
 import { ConnectionHandler } from 'relay-runtime'
 import { graphql, useMutation } from 'relay-hooks'
+import Swipeable from 'react-native-swipeable';
+import { useThemeContext } from '../../themeContextDef';
 
 const Todo = (props) => {
+    const { theme } = useThemeContext()
+
+    console.log({ theme })
+
     const [editMutate, { loading: editTodoLoading }] = useMutation(
         graphql`
         mutation TodoEditMutation($input:editTodoInput!) {
@@ -14,6 +20,8 @@ const Todo = (props) => {
             }
         }`
     )
+
+    const swiperRef = useRef(null)
 
     const [deleteMutate, { loading: deleteTodoLoading }] = useMutation(
         graphql`
@@ -68,16 +76,56 @@ const Todo = (props) => {
     }
 
     return (
-        <View style={{ flexDirection: "row" }}>
-            <Text>{props.item.node.title}</Text>
-            <Button
-                disabled={editTodoLoading}
-                onPress={() => {
+        <View style={{ marginVertical: 7, borderColor: theme.dark, borderWidth: 1, borderRadius: 10 }}>
+            <Swipeable
+                ref={swiperRef}
+                leftContent={
+                    <Text style={{ fontSize: 16, textAlignVertical: "center", textAlign: "right", backgroundColor: theme.dark, color: "white", height: 40, paddingRight: 10 }}>{
+                        props.item.node.completed
+                            ? "Make todo Incompleted"
+                            : "Make Todo completed"
+                    }
+                    </Text>
+                }
+                onLeftActionRelease={() => {
                     editTodoMutation(props.item.node.id, !props.item.node.completed)
                 }}
-                title={props.item.node.completed ? "Mark as uncompleted" : "Mark as completed"}
-            />
-            <Button disabled={deleteTodoLoading} onPress={() => { deleteTodoMutation(props.item.node.id) }} title={"delete"} />
+                rightButtons={[
+                    <TouchableOpacity
+                        onPress={() => {
+                            swiperRef.current.recenter()
+                            // console.log("ON PRESS", )
+                            deleteTodoMutation(props.item.node.id)
+                        }}
+                    >
+                        <View style={{ height: 40 }}>
+
+                            <Text style={{ width: 100, height: 40, backgroundColor: "red", color: "white", textAlign: "center", textAlignVertical: "center", fontSize: 16 }}>Delete</Text>
+                        </View>
+                    </TouchableOpacity>
+                ]}
+                leftButtonWidth={100}
+                rightButtonWidth={100}
+            >
+                <View style={{ height: 40, }}>
+                    <Text
+                        style={{
+                            borderRadius: 10,
+                            height: 40,
+                            marginHorizontal: 10,
+                            paddingLeft: 10,
+                            color: theme.dark,
+                            backgroundColor: theme.light,
+                            fontSize: 25,
+                            textAlign: "left",
+                            textAlignVertical: "center",
+                            textDecorationLine: props.item.node.completed ? "line-through" : "none"
+                        }}
+                    >
+                        {props.item.node.title}
+                    </Text>
+                </View>
+            </Swipeable>
         </View>
     )
 }

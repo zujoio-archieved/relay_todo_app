@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 1307ef0b4667f3e1f7f87b63eab3a403
+ * @relayHash 8ba07e9626fd1ee193b726f45bf43333
  */
 
 /* eslint-disable */
@@ -18,6 +18,20 @@ export type TodoViewerQueryVariables = {|
 export type TodoViewerQueryResponse = {|
   +viewer: ?{|
     +id: ?string,
+    +theme: ?{|
+      +index: ?number,
+      +name: ?string,
+      +light: ?string,
+      +primary: ?string,
+      +dark: ?string,
+    |},
+    +availableThemes: ?$ReadOnlyArray<?{|
+      +index: ?number,
+      +name: ?string,
+      +light: ?string,
+      +primary: ?string,
+      +dark: ?string,
+    |}>,
     +$fragmentRefs: TodoPagination_user$ref,
   |}
 |};
@@ -36,6 +50,20 @@ query TodoViewerQuery(
 ) {
   viewer {
     id
+    theme {
+      index
+      name
+      light
+      primary
+      dark
+    }
+    availableThemes {
+      index
+      name
+      light
+      primary
+      dark
+    }
     ...TodoPagination_user_2zNEi9
   }
 }
@@ -89,24 +117,81 @@ v1 = {
   "args": null,
   "storageKey": null
 },
-v2 = {
+v2 = [
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "index",
+    "args": null,
+    "storageKey": null
+  },
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "name",
+    "args": null,
+    "storageKey": null
+  },
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "light",
+    "args": null,
+    "storageKey": null
+  },
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "primary",
+    "args": null,
+    "storageKey": null
+  },
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "dark",
+    "args": null,
+    "storageKey": null
+  }
+],
+v3 = {
+  "kind": "LinkedField",
+  "alias": null,
+  "name": "theme",
+  "storageKey": null,
+  "args": null,
+  "concreteType": "userTheme",
+  "plural": false,
+  "selections": (v2/*: any*/)
+},
+v4 = {
+  "kind": "LinkedField",
+  "alias": null,
+  "name": "availableThemes",
+  "storageKey": null,
+  "args": null,
+  "concreteType": "userTheme",
+  "plural": true,
+  "selections": (v2/*: any*/)
+},
+v5 = {
   "kind": "Variable",
   "name": "completed",
   "variableName": "completed"
 },
-v3 = {
+v6 = {
   "kind": "Variable",
   "name": "first",
   "variableName": "first"
 },
-v4 = [
+v7 = [
   {
     "kind": "Variable",
     "name": "after",
     "variableName": "cursor"
   },
-  (v2/*: any*/),
-  (v3/*: any*/)
+  (v5/*: any*/),
+  (v6/*: any*/)
 ];
 return {
   "kind": "Request",
@@ -127,17 +212,19 @@ return {
         "plural": false,
         "selections": [
           (v1/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
           {
             "kind": "FragmentSpread",
             "name": "TodoPagination_user",
             "args": [
-              (v2/*: any*/),
+              (v5/*: any*/),
               {
                 "kind": "Variable",
                 "name": "cursor",
                 "variableName": "cursor"
               },
-              (v3/*: any*/)
+              (v6/*: any*/)
             ]
           }
         ]
@@ -159,12 +246,14 @@ return {
         "plural": false,
         "selections": [
           (v1/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
           {
             "kind": "LinkedField",
             "alias": null,
             "name": "todos",
             "storageKey": null,
-            "args": (v4/*: any*/),
+            "args": (v7/*: any*/),
             "concreteType": "TodoConnection",
             "plural": false,
             "selections": [
@@ -264,7 +353,7 @@ return {
             "kind": "LinkedHandle",
             "alias": null,
             "name": "todos",
-            "args": (v4/*: any*/),
+            "args": (v7/*: any*/),
             "handle": "connection",
             "key": "TodoPagination_todos",
             "filters": []
@@ -277,11 +366,11 @@ return {
     "operationKind": "query",
     "name": "TodoViewerQuery",
     "id": null,
-    "text": "query TodoViewerQuery(\n  $completed: Boolean\n  $first: Int\n  $cursor: String\n) {\n  viewer {\n    id\n    ...TodoPagination_user_2zNEi9\n  }\n}\n\nfragment TodoPagination_user_2zNEi9 on User {\n  todos(after: $cursor, first: $first, completed: $completed) {\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        title\n        completed\n        __typename\n      }\n      cursor\n    }\n  }\n}\n",
+    "text": "query TodoViewerQuery(\n  $completed: Boolean\n  $first: Int\n  $cursor: String\n) {\n  viewer {\n    id\n    theme {\n      index\n      name\n      light\n      primary\n      dark\n    }\n    availableThemes {\n      index\n      name\n      light\n      primary\n      dark\n    }\n    ...TodoPagination_user_2zNEi9\n  }\n}\n\nfragment TodoPagination_user_2zNEi9 on User {\n  todos(after: $cursor, first: $first, completed: $completed) {\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        title\n        completed\n        __typename\n      }\n      cursor\n    }\n  }\n}\n",
     "metadata": {}
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '7ecb399672fd3e5f3c681efbeab4fd75';
+(node/*: any*/).hash = '2c68fd16499f3ed4a9eaff95435545b0';
 module.exports = node;

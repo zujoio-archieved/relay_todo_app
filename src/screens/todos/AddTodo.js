@@ -3,8 +3,10 @@ import { View, Text, TextInput } from 'react-native'
 import { graphql, useMutation } from 'relay-hooks'
 import { ConnectionHandler } from 'relay-runtime'
 import uuid from "uuid"
+import { useThemeContext } from '../../themeContextDef'
 
 const AddTodo = (props) => {
+    const { theme } = useThemeContext()
     const [title, setTitle] = useState("")
 
     const [mutate, { loading }] = useMutation(graphql`
@@ -72,8 +74,10 @@ const AddTodo = (props) => {
     }
 
     return (
-        <View>
+        <View style={{ marginVertical: 10 }}>
             <TextInput
+                style={{ backgroundColor: "white", borderRadius: 10, marginHorizontal: 10, paddingLeft: 10, fontSize: 20, color: theme.primary }}
+                placeholderTextColor={theme.light}
                 placeholder="Add Todo"
                 value={title}
                 onChangeText={setTitle}

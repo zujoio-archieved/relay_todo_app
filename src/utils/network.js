@@ -1,7 +1,7 @@
 const host = "192.168.0.181"
 const port = "8080"
 const httpEndPointUrl = "graphql";
-const wsEndPointUrl = "subscription";
+const wsEndPointUrl = "subscriptions";
 
 export const serverEndPoint = `http://${host}:${port}`;
 export const httpEndPoint = `http://${host}:${port}/${httpEndPointUrl}`;
