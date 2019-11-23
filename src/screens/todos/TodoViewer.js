@@ -36,23 +36,6 @@ const TodoViewer = () => {
       }
     }
   `
-  // const TodoViewerQuery = graphql`
-  // query TodoViewerQuery {
-  //     viewer {
-  //         id
-  //         email
-  //         firstName
-  //         lastName
-  //     }
-  // }`
-
-
-  // const { props, error, retry, cached } = useQuery({
-  //     query: TodoViewerQuery,
-  //     cacheConfig: {
-  //         force: true
-  //     }
-  // });
 
   const { props, error, retry, cached } = useQuery({
     query: TodoViewerQuery,
@@ -64,7 +47,7 @@ const TodoViewer = () => {
   });
 
   if (props && props.viewer) {
-    // TodoCreatedSubscription.subscribe(environment, props.viewer.id)
+    TodoCreatedSubscription.subscribe(environment, props.viewer.id)
     TodoEditedSubscription.subscribe(environment, props.viewer.id)
     TodoDeletedSubscription.subscribe(environment, props.viewer.id)
     CompletedTodosDeletedSubscription.subscribe(environment, props.viewer.id)

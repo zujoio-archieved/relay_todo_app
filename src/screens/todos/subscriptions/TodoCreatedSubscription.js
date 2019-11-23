@@ -38,7 +38,10 @@ const subscribe = (environment, viewerId) => {
             })
 
             if (!todoExists) {
-                ConnectionHandler.insertEdgeBefore(todos, newEdge)
+                const edge = ConnectionHandler.createEdge(store, todos, newEdge.getLinkedRecord("node"), "TodoEdge")
+                ConnectionHandler.insertEdgeBefore(todos, edge)
+
+                // ConnectionHandler.insertEdgeBefore(todos, newEdge)
             }
         }
     })
